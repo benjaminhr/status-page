@@ -4,11 +4,11 @@ const bodyParser = require('body-parser')
 const { exec } = require('child_process')
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:true})
+app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static('public'))
 
 app.get('/status', (req,res) => {
-  res.render('index')
+  res.sendFile('index')
 })
 
 app.get('/api/status', (req,res) => {
@@ -25,6 +25,8 @@ app.get('/api/status', (req,res) => {
 
     data['mysql'] = stdout
   })
+
+  res.json(data)
 })
 
 const port = process.env.PORT || 8001
