@@ -5,14 +5,23 @@ const { exec } = require('child_process')
 app.use(express.static('public'))
 
 app.get('/status', (req,res) => {
-  res.send('index')
+  res.render('index')
 })
 
-exec('systemctl status nginx', (err,stdout,stderr) => {
-  if (err) throw err
+app.get('/api/status', (req,res) => {
+  let data = {};
 
-  let data = stdout
-  console.log(data)
+  exec('systemctl status nginx', (err,stdout,stderr) => {
+    if (err) throw err
+
+    data['nginx'] = stdout
+  })
+
+  exec('systemctl status mysql', (err,stdout,stderr) => {
+    if (err) throw err
+
+    data['mysql'] = stdout
+  })
 })
 
 const port = process.env.PORT || 8001
