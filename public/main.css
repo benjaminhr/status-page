@@ -4,6 +4,10 @@ body {
   font-size:15px;
 }
 
+h2 {
+  margin-left:-30px;
+}
+
 p {
   font-size:20px;
 }
