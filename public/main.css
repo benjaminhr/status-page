@@ -1,6 +1,14 @@
 body {
-  margin:10%;
-  color:#00cc00;
+  margin:5% 10% 10% 10%;
   font-family:courier;
   font-size:15px;
 }
+
+p {
+  font-size:20px;
+}
+
+#n-result, #p-result, #m-result {
+  color:#00cc00;
+}
+

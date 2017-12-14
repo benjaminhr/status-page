@@ -2,32 +2,39 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const { exec } = require('child_process')
+const auth = require('basic-auth')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 
-app.get('/status', (req,res) => {
-  res.sendFile('index')
+app.get('/', (req,res) => {
+  res.sendFile(__dirname + '/public/index.html')
 })
 
 app.get('/api/status', (req,res) => {
-  let data = {};
+    let data = {};
 
-  exec('systemctl status nginx', (err,stdout,stderr) => {
-    if (err) throw err
+    const sendData = function() {
+      res.json(data)
+    }
 
-    data['nginx'] = stdout
-  })
+    exec('service nginx status', (err,stdout,stderr) => {
+      if (err) throw err
+      data['nginx'] = stdout
+     })
 
-  exec('systemctl status mysql', (err,stdout,stderr) => {
-    if (err) throw err
+    exec('service nginx status', (err,stdout,stderr) => {
+      if (err) throw err
+      data['mysql'] = stdout
+    })
 
-    data['mysql'] = stdout
-  })
-
-  res.json(data)
+    exec('pm2 list', (err,stdout,stderr) => {
+      if (err) throw err
+      data['pm2'] = stdout
+      sendData()
+    })
 })
 
-const port = process.env.PORT || 8001
+const port = process.env.PORT || 9000
 app.listen(port)
