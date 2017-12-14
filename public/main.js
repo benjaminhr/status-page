@@ -1,3 +1,12 @@
+/* 
+
+  Laziest frontend js I have ever written
+  but this is for my own projects
+  and I don't really care
+  as long as it works.
+
+*/
+
 const nginx = document.getElementById('nginx')
 const mysql = document.getElementById('mysql')
 const pm2 = document.getElementById('pm2')
